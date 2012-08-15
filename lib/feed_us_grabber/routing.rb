@@ -9,7 +9,8 @@ module FeedUsGrabberRoute #:nodoc:  i
 end 
 
 if ActionPack::VERSION::MAJOR >= 3
-  ActionDispatch::Routing::DeprecatedMapper.send :include, FeedUsGrabberRoute::Routing::MapperExtensions
+  #ActionDispatch::Routing::DeprecatedMapper.send :include, FeedUsGrabberRoute::Routing::MapperExtensions
+  ActionDispatch::Routing::DeprecatedMapper :include, FeedUsGrabberRoute::Routing::MapperExtensions
 else
   ActionController::Routing::RouteSet::Mapper.send :include, FeedUsGrabberRoute::Routing::MapperExtensions
 end
