@@ -17,11 +17,12 @@ Jeweler::Tasks.new do |gem|
   gem.name = "feed_us_grabber"
   gem.homepage = "http://github.com/cliffordru/feed_us_grabber"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Gem to render feed.us content from your rails app}
+  gem.description = %Q{This gem replaces the previous feed.us grabber rails plugin to render content items from feed.us on your site.}
   gem.email = "clifford.gray@gmail.com"
   gem.authors = ["Cliff G"]
   # dependencies defined in Gemfile
+  gem.files = Dir.glob('lib/**/*.rb')
 end
 Jeweler::RubygemsDotOrgTasks.new
 
@@ -32,13 +33,20 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
+SimpleCov.start('rails') if ENV['COVERAGE']
+desc "Run RSpec with code coverage"
+task :coverage do
+ENV['COVERAGE'] = true
+Rake::Task["spec"].execute
 end
+
+#require 'rcov/rcovtask'
+#Rcov::RcovTask.new do |test|
+#  test.libs << 'test'
+#  test.pattern = 'test/**/test_*.rb'
+#  test.verbose = true
+#  test.rcov_opts << '--exclude "gems/*"'
+#end
 
 task :default => :test
 
