@@ -1,6 +1,7 @@
 include FeedUsGrabberHelper
 
-CACHE_COMMAND_FORCE = "force_clear_all"
+# Constant already set in model
+#CACHE_COMMAND_FORCE = "force_clear_all"
 
 class FeedUsGrabberController < ActionController::Base
 	def index
