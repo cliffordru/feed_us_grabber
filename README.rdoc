@@ -19,7 +19,7 @@ To be used with Rails 3.x and Ruby 1.9x
 		
 	4. Update environment.rb and include require 'net/http'
 
-	5. Your installation is complete
+	5. Your installation is complete 
 
 == USAGE 
 	1. Add following line to each controller (or app/controllers/application_controller.rb):
