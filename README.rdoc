@@ -5,20 +5,20 @@
 To be used with Rails 3.x and Ruby 1.9x
 
 == INSTALLATION
-	
-	Follow these steps to download and install the feed_us_grabber gem
 
+	Follow these steps to download and install the feed_us_grabber gem
+	
 	1. In your rails application, edit your Gemfile to include:
 	gem 'feed_us_grabber'
-		
+	
 	2. Run bundle install from the command line (this will download the feed_us_grabber to your environment)
-		
+	
 	3. Open config/routes.rb and add following line: 
 	match "rails_app/FeedUsGrabber" => "FeedUsGrabber#index"        
 	** where rails_app is the root URL to your application.  The match is case sensitive.
-		
+	
 	4. Update environment.rb and include require 'net/http'
-
+	
 	5. Your installation is complete 
 
 == USAGE 
