@@ -6,7 +6,7 @@ To be used with Rails 3.x and Ruby 1.9x
 
 == INSTALLATION
 
-	Follow these steps to download and install the feed_us_grabber gem
+Follow these steps to download and install the feed_us_grabber gem
 	
 	1. In your rails application, edit your Gemfile to include:
 	gem 'feed_us_grabber'
@@ -28,32 +28,32 @@ To be used with Rails 3.x and Ruby 1.9x
 	2. Add following code inside your controllers actions:
 	@grabber = feedUsGrabber(:FeedUsURL => '<FEED.US URL>',:FeedUsCacheInterval => FEED_INTERVAL, :FeedUsCacheIntervalLength => FEED_INTERVAL_LENGTH, :FeedUsCacheGroup => 'FEED CACHE GROUP NAME')
 
-	If you want to use FeedUsGrabber inside action index under controller "test" add following code inside action index of "test" controller
+		If you want to use FeedUsGrabber inside action index under controller "test" add following code inside action index of "test" controller
 
-	* Example 1	
-	def index
-		@grabber = feedUsGrabber(:FeedUsURL => 'http://dev.render.feed.us/Feed.aspx?g=98397b1c-5494-de11-938c-00304891151d',:FeedUsCacheInterval => CI_DAYS, :FeedUsCacheIntervalLength => 2, :FeedUsCacheGroup => 'demo')
-	end
+		* Example 1	
+		def index
+			@grabber = feedUsGrabber(:FeedUsURL => 'http://dev.render.feed.us/Feed.aspx?g=98397b1c-5494-de11-938c-00304891151d',:FeedUsCacheInterval => CI_DAYS, :FeedUsCacheIntervalLength => 2, :FeedUsCacheGroup => 'demo')
+		end
 				
-	* Example 2 The most basic configuration is (Note you will replace the URL listed with the URL of your content from "Export" on Feed.Us):
+		* Example 2 The most basic configuration is (Note you will replace the URL listed with the URL of your content from "Export" on Feed.Us):
 			
-	def index
-		@grabber = feedUsGrabber(:FeedUsURL => 'http://dev.render.feed.us/Feed.aspx?g=98397b1c-5494-de11-938c-00304891151d')
-	end
-
-	3. Inside the view of the action add the following code to render your content
-	<%= feedUsGrabberRender @grabber %>
+		def index
+			@grabber = feedUsGrabber(:FeedUsURL => 'http://dev.render.feed.us/Feed.aspx?g=98397b1c-5494-de11-938c-00304891151d')
+		end
 		
-	Example
-	index.erb of "test" looks like
-	<table>
-		<tr>
-			<td width='20%'>
-				<%= feedUsGrabberRender @grabber %> 	
-			</td>
-			<td> Some text </td>
-		</tr>
-	</table>
+	3. Inside the view of the action add the following code to render your content
+		<%= feedUsGrabberRender @grabber %>
+			
+		Example
+		index.erb of "test" looks like
+		<table>
+			<tr>
+				<td width='20%'>
+					<%= feedUsGrabberRender @grabber %> 	
+				</td>
+				<td> Some text </td>
+			</tr>
+		</table>
 
 == CLEARING CACHE
 		To clear cache goto following url
