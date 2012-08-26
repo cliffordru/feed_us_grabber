@@ -2,7 +2,7 @@
 
 == ENVIRONEMNT
 	
-To be used with Rails 3.x and Ruby 1.9x ...
+To be used with Rails 3.x and Ruby 1.9x ....
 
 == INSTALLATION
 
