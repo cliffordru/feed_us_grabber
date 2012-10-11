@@ -32,13 +32,13 @@ Follow these steps to download and install the feed_us_grabber gem
 
 		* Example 1	
 		def index
-			@grabber = feedUsGrabber(:FeedUsURL => 'http://dev.render.feed.us/Feed.aspx?g=98397b1c-5494-de11-938c-00304891151d',:FeedUsCacheInterval => CI_DAYS, :FeedUsCacheIntervalLength => 2, :FeedUsCacheGroup => 'demo')
+			@grabber = feedUsGrabber(:FeedUsURL => 'http://render.feed.us/Feed.aspx?g=00767d50-bde8-e111-9875-4040419a7f04',:FeedUsCacheInterval => CI_DAYS, :FeedUsCacheIntervalLength => 2, :FeedUsCacheGroup => 'demo')
 		end
 				
 		* Example 2 The most basic configuration is (Note you will replace the URL listed with the URL of your content from "Export" on Feed.Us):
 			
 		def index
-			@grabber = feedUsGrabber(:FeedUsURL => 'http://dev.render.feed.us/Feed.aspx?g=98397b1c-5494-de11-938c-00304891151d')
+			@grabber = feedUsGrabber(:FeedUsURL => 'http://render.feed.us/Feed.aspx?g=00767d50-bde8-e111-9875-4040419a7f04')
 		end
 		
 	3. Inside the view of the action add the following code to render your content
