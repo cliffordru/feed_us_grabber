@@ -1,4 +1,6 @@
-Copyright (c) 2012 Cliff G
+Copyright (c) 2012 Feed.Us
+
+We're proud of our software, and we want to tell you more about it.  We also want to hear about what you do so we can help figure out whether Feed.Us is a good fit. Please call us (414-244-9900) or email us (contact@feed.us) or Skype us (feedussoftware).
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
