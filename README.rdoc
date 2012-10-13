@@ -2,7 +2,7 @@
 
 == ENVIRONEMNT
 	
-To be used with Rails 3.x and Ruby 1.9x.  We're proud of our software, and we want to tell you more about it.  We also want to hear about what you do so we can help figure out whether Feed.Us is a good fit. Please call us (414-244-9900) or email us (contact@feed.us) or Skype us (feedussoftware).
+To be used with Rails 3.x and Ruby 1.9x.  We're proud of our software, and we want to tell you more about it.  We also want to hear about what you do so we can help figure out whether Feed.Us is a good fit. Please call us (414-244-9900) or email us (contact@feed.us) or Skype us (feedussoftware) or visit us at http://feed.us
 
 == INSTALLATION
 
@@ -19,9 +19,9 @@ Follow these steps to download and install the feed_us_grabber gem:
 	
 	4. Update environment.rb and include require 'net/http'
 	
-	5. Your installation is complete 
+	5. Your installation is complete
 
-== USAGE 
+== USAGE
 	1. Add following line to each controller (or app/controllers/application_controller.rb):
 			include FeedUsGrabberHelper
 			
