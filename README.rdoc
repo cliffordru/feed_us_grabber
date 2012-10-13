@@ -6,7 +6,7 @@ To be used with Rails 3.x and Ruby 1.9x.  We're proud of our software, and we wa
 
 == INSTALLATION
 
-Follow these steps to download and install the feed_us_grabber gem
+Follow these steps to download and install the feed_us_grabber gem:
 	
 	1. In your rails application, edit your Gemfile to include:
 	gem 'feed_us_grabber'

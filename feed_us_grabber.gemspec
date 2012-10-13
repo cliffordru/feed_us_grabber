@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Cliff G"]
   s.date = "2012-10-11"
-  s.description = "This gem replaces the previous feed.us grabber rails plugin to render content items from feed.us on your site.  We also want to hear about what you do so we can help figure out whether Feed.Us is a good fit. Please call us (414-244-9900) or email us (contact@feed.us) or Skype us (feedussoftware)."
+  s.description = "This gem replaces the previous feed.us grabber rails plugin to render content items from feed.us on your site."
   s.email = "clifford.gray@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
