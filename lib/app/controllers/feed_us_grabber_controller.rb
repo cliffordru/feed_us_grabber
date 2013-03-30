@@ -62,6 +62,10 @@ class FeedUsGrabberController < ActionController::Base
 	end
 	
 	def IsPermittedToProceed()
+		# TODO: temp code that always returns true
+		puts "trace: returning is permitted true"
+		return true 
+		
 		isPermitted = false
 		@mClientIp = request.remote_addr	
 		
