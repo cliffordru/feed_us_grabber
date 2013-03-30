@@ -8,7 +8,7 @@ class FeedUsGrabberController < ActionController::Base
 	  def initialize
         # Client ip check. Can remove all ip's to turn off the check. 
 		# ! IMPORTANT: TO DISABLE THIS CHECK SET BOTH ARRAYS TO nil 
-	    @mClientWhiteList = [ "75.126.108.226", "75.126.107.10", "127.0.0.1" ]		
+	    @mClientWhiteList = [ "75.126.108.226", "75.126.107.10", "127.0.0.1", "50.56.95.92" ]		
 	    @mClientHostNameWhileList = [ "app.feed.us", "request.feed.us", "feed.us", "classic.syndication.feed.us", "render.feed.us", "dev.feed.us", "stage.feed.us", "localhost"]  
 		@mClientIp
 	  end
