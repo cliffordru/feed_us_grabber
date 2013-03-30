@@ -88,8 +88,11 @@ class FeedUsGrabberController < ActionController::Base
 		end
 		
 		if isPermitted == false
-			# Heroku fwd -> X-Forwarded-For
-			@mClientIp = request.env["X-Forwarded-For"]			
+			# Heroku fwd -> X-Forwarded-For, request.remote_addr would return proxy IP so now try fwd ip
+			@mClientIp = request.env["HTTP_X_FORWARDED_FOR"]	
+			if @mClientIp == "" || @mClientIp.nil?
+				@mClientIp = request.env["X-Forwarded-For"]
+			end			
 			isPermitted = IsClientIpInWhiteList()
 			puts "Trace: Try to use fwd header = #{@mClientIp}"	
 			puts "Trace: using fwd header isPermitted = #{isPermitted}"	
