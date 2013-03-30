@@ -87,6 +87,14 @@ class FeedUsGrabberController < ActionController::Base
 			end
 		end
 		
+		if isPermitted == false
+			# Heroku fwd -> X-Forwarded-For
+			@mClientIp = request.env["X-Forwarded-For"]			
+			isPermitted = IsClientIpInWhiteList()
+			puts "Trace: Try to use fwd header = #{@mClientIp}"	
+			puts "Trace: using fwd header isPermitted = #{isPermitted}"	
+		end
+		
 		puts "Trace: mClientIp = #{@mClientIp}"		
 		puts "Trace: returning is permitted true"
 		# TODO: temp code that always returns true
