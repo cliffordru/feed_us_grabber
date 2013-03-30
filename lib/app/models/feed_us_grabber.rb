@@ -259,10 +259,10 @@ class FeedUsGrabber
   def clearAllCachedFiles
 	# For testing heroku logging	
 	puts "Trace: Clearing all caches at path = #{@mstrCacheFolder}"
-    #logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
+    logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
 	grabber_logger = FeedUsGrabberLogger.new(logfile)
 	grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
-	#logfile.close
+	logfile.close
     self.clearCacheFolder(@mstrCacheFolder);
 	end
   
