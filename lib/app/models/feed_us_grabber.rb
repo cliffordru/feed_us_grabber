@@ -255,6 +255,8 @@ class FeedUsGrabber
   end
   
   def clearAllCachedFiles
+	puts "Clearing all cahce files called"
+	puts "Clearing all caches at path #{@mstrCacheFolder}"
     logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
 		grabber_logger = FeedUsGrabberLogger.new(logfile)
 	  grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
