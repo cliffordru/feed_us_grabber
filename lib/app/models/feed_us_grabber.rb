@@ -167,7 +167,7 @@ class FeedUsGrabber
 		  r = Net::HTTP.get_response(URI.parse(@mstrDynURL))
 		rescue
 		  logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-  		grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+		  grabber_logger = FeedUsGrabberLogger.new(logfile)
 
 		  grabber_logger.error("Unable to fetch URL #{@mstrDynURL}")
 		  logfile.close
@@ -234,7 +234,7 @@ class FeedUsGrabber
       data
     rescue
       logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-  		grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+  		grabber_logger = FeedUsGrabberLogger.new(logfile)
 		  grabber_logger.error("Unable to render/open #{@mstrCachedFileName}")
 		  logfile.close
     end
@@ -244,13 +244,13 @@ class FeedUsGrabber
 	def clearCacheGroupFiles(group)
 	  if group == '.' || group == '..'
 	    logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-  		grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+  		grabber_logger = FeedUsGrabberLogger.new(logfile)
 		  grabber_logger.warn("someone requested to delete . OR .. ")
 		  logfile.close
 	    return
 	  end
 	  logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-		grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+		grabber_logger = FeedUsGrabberLogger.new(logfile)
 	  grabber_logger.info("Clearing cache at group  #{group} at path #{File.join(@mstrCacheFolder,group)}")
 	  logfile.close
 	  self.clearCacheFolder(File.join(@mstrCacheFolder,group))
@@ -260,7 +260,7 @@ class FeedUsGrabber
 	# For testing heroku logging	
 	puts "Trace: Clearing all caches at path = #{@mstrCacheFolder}"
     #logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-	grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+	grabber_logger = FeedUsGrabberLogger.new(logfile)
 	grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
 	#logfile.close
     self.clearCacheFolder(@mstrCacheFolder);
@@ -299,7 +299,7 @@ class FeedUsGrabber
   
   def logError(contents)
     logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-    grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+    grabber_logger = FeedUsGrabberLogger.new(logfile)
 
     grabber_logger.error(contents)
     logfile.close	  

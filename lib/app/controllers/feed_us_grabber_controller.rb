@@ -61,11 +61,7 @@ class FeedUsGrabberController < ActionController::Base
 		end
 	end
 	
-	def IsPermittedToProceed()
-		# TODO: temp code that always returns true
-		puts "trace: returning is permitted true"
-		return true 
-		
+	def IsPermittedToProceed()				
 		isPermitted = false
 		@mClientIp = request.remote_addr	
 		
@@ -80,7 +76,8 @@ class FeedUsGrabberController < ActionController::Base
 				# Try to resolve hostname from ip
 				begin
 					s = Socket.getaddrinfo(@mClientIp,nil)
-					host = s[0][2]				
+					host = s[0][2]
+					puts "Trace: host = #{host}"						
 					if @mClientHostNameWhileList.include?(host) == true
 						isPermitted = true
 					end
@@ -90,7 +87,12 @@ class FeedUsGrabberController < ActionController::Base
 			end
 		end
 		
-		return isPermitted
+		puts "Trace: mClientIp = #{@mClientIp}"		
+		puts "Trace: returning is permitted true"
+		# TODO: temp code that always returns true
+		return true
+		
+		#return isPermitted
 	end
 	
 	def IsClientIpInWhiteList()
