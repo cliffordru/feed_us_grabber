@@ -255,6 +255,7 @@ class FeedUsGrabber
   end
   
   def clearAllCachedFiles
+	# For testing heroku logging
 	puts "Clearing all cahce files called"
 	puts "Clearing all caches at path #{@mstrCacheFolder}"
     logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
