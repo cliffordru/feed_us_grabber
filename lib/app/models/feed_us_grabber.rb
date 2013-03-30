@@ -115,20 +115,22 @@ class FeedUsGrabber
 		strResults
 	end
 	
-	def autoCacheToFile
-    if @bIsPostBack
+	def autoCacheToFile	
+		puts "trace: start autoCacheToFile.  bIsPostBack = #{@bIsPostBack}"
+		if @bIsPostBack
 		  return
 		end
 		
+		puts "trace: mstrCacheCommand = #{@mstrCacheCommand}"
 		if @mstrCacheCommand.nil? || @mstrCacheCommand == ''
 		  if (!self.cachedFileExists) or self.cacheFileIsExpired
 		    self.createCacheFile
 		  end
 		else
 		  if @mstrCacheCommand == "clear"
-        if @mstrCacheGroup != ''
-          self.clearCacheGroupFiles(@mstrCacheGroup)
-        end
+			if @mstrCacheGroup != ''
+				self.clearCacheGroupFiles(@mstrCacheGroup)
+			end
 		  end
 		  if @mstrCacheCommand == 'clearall' || @mstrCacheCommand == CACHE_COMMAND_FORCE
 		    self.clearAllCachedFiles
@@ -256,11 +258,11 @@ class FeedUsGrabber
   
   def clearAllCachedFiles
 	# For testing heroku logging	
-	puts "Puts: Clearing all caches at path #{@mstrCacheFolder}"
-    logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
-		grabber_logger = FeedUsGrabberLogger.new(STDOUT)
-	  grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
-	  logfile.close
+	puts "Trace: Clearing all caches at path = #{@mstrCacheFolder}"
+    #logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
+	grabber_logger = FeedUsGrabberLogger.new(STDOUT)
+	grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
+	logfile.close
     self.clearCacheFolder(@mstrCacheFolder);
 	end
   
@@ -268,6 +270,7 @@ class FeedUsGrabber
 	canConnect = canConnectToFeedUs()	
 	
 	if canConnect == true
+		puts "Trace: clear cache folder can connect"
 		FileUtils.rm_r Dir.glob("#{folder}/*")
 	else
 		logError("Unable to connect to Feed.Us. Cache will not be cleared. URL that was checked: #{@mstrDynURL}")
