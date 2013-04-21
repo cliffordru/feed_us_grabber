@@ -1,12 +1,12 @@
 module FeedUsGrabberHelper
-	def feedUsGrabber(params)
+  def feedUsGrabber(params)
     grabber = FeedUsGrabber.new
-    
+
     unless params[:CacheCommand].nil?
       grabber.setCacheCommand(params[:CacheCommand])
     end
-   unless params[:FeedUsCacheGroup].nil?
-      grabber.setCacheGroup(params[:FeedUsCacheGroup])      
+    unless params[:FeedUsCacheGroup].nil?
+      grabber.setCacheGroup(params[:FeedUsCacheGroup])
     end
     unless params[:FeedUsCacheFolder].nil?
       grabber.setCacheFolder(params[:FeedUsCacheFolder])
@@ -21,17 +21,21 @@ module FeedUsGrabberHelper
     unless params[:FeedUsURL].nil?
       grabber.setDynURL(params[:FeedUsURL])
       if params[:includeFlag] == true
-  			grabber.setIncludeFlag(true)
-  		else
-  			grabber.setIncludeFlag(false)
-  		end
+        grabber.setIncludeFlag(true)
+      else
+        grabber.setIncludeFlag(false)
+      end
     end
-    
+
+    unless params[:ClientWhiteList].nil?
+      grabber.setClientWhiteList(params[:ClientWhiteList])
+    end
+
     grabber.autoCacheToFile()
     grabber
-	end
-	
-	def feedUsGrabberRender(grabber)
-	    grabber.renderCacheFromFile.to_s.html_safe
-	end
+  end
+
+  def feedUsGrabberRender(grabber)
+    grabber.renderCacheFromFile.to_s.html_safe
+  end
 end

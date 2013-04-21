@@ -1,3 +1,4 @@
+=begin
 = feed_us_grabber
 
 == ENVIRONEMNT
@@ -56,15 +57,20 @@ Follow these steps to download and install the feed_us_grabber gem:
 		</table>
 
 == CLEARING CACHE
-		To clear cache goto following url
-			http://rails_app/FeedUsGrabber
-		1. Clear a specific cache group
-			http://rails_app/FeedUsGrabber?cachecommand=clear&group=demo
-												OR
+To clear cache goto following url
+	http://rails_app/FeedUsGrabber
+* Clear a specific cache group
+	http://rails_app/FeedUsGrabber?cachecommand=clear&group=demo
+										OR
 
-			http://rails_app/FeedUsGrabber?group=demo
-		2. Clear entire cache
-			http://rails_app/FeedUsGrabber?cachecommand=clearall
+	http://rails_app/FeedUsGrabber?group=demo
+* Clear entire cache
+	http://rails_app/FeedUsGrabber?cachecommand=clearall
+
+:Note that if you receive a failure message that your IP is not authorized to clear the cache, add your IP to the ClientWhiteList in your controller (replace 127.0.0.0 with your IP, visit http://whatismyip.com/)
+def index
+	@grabber = feedUsGrabber(:FeedUsURL => 'http://render.feed.us/Feed.aspx?g=00767d50-bde8-e111-9875-4040419a7f04', :ClientWhiteList => '127.0.0.1')
+end
 
 == LOCATION OF CACHE
 		Cache is maintained under RAILS_ROOT/tmp
@@ -86,4 +92,4 @@ Follow these steps to download and install the feed_us_grabber gem:
 
 Copyright (c) 2012 Cliff G. See LICENSE.txt for
 further details.
-
+=end
