@@ -53,14 +53,16 @@ class FeedUsGrabberController < ActionController::Base
 		isPermitted = IsPermittedToProceed()
 		
 		renderText = ""
-		if @mArgs[:Debug] == true && isPermitted
+		if @mArgs[:Debug] == true #&& isPermitted
 			renderText << @mArgs[:DebugOutput]					
 		end
 
 		if isPermitted
 			if fetch == true 
 				grabber = feedUsGrabber(@mArgs)
-				renderText << grabber.getDebugOutput
+				if @mArgs[:Debug] == true
+					renderText << grabber.getDebugOutput
+				end 
 				renderText << "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
 				<p style=\"font-family:arial;\">Congratulations!  You have successfully refreshed your content.</p>
 				<p style=\"font-family:arial;\"><a href=\"/\">Home</a></p> "
