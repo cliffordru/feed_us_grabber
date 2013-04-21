@@ -18,6 +18,7 @@ class FeedUsGrabber
 		@mstrCacheGroup = ""
 		@mstrStateFile = File.join(Rails.root.to_s,'tmp','FeedUsGrabberState')
 		@mstrClientWhiteList = ""
+		@mstrDebugOutput = ""
 	end
 
 	def setCacheGroup(param)
@@ -91,6 +92,14 @@ class FeedUsGrabber
 		@mstrClientWhiteList
 	end
 
+	def setDebugOutput(param)
+		@mstrDebugOutput = param
+	end
+
+	def getDebugOutput
+		@mstrDebugOutput
+	end
+
 	def getDynURL
 		@mstrDynURL
 	end
@@ -122,12 +131,12 @@ class FeedUsGrabber
 	end
 
 	def autoCacheToFile
-		puts "trace: start autoCacheToFile.  bIsPostBack = #{@bIsPostBack}"
+		appendDebugOutput("Start autoCacheToFile.  bIsPostBack = #{@bIsPostBack}")		
 		if @bIsPostBack
 			return
 		end
 
-		puts "trace: mstrCacheCommand = #{@mstrCacheCommand}"
+		appendDebugOutput("Cache command received = #{@mstrCacheCommand}")			
 		if @mstrCacheCommand.nil? || @mstrCacheCommand == ''
 			if (!self.cachedFileExists) or self.cacheFileIsExpired
 				self.createCacheFile
@@ -295,8 +304,8 @@ class FeedUsGrabber
 	end
 
 	def clearAllCachedFiles
-		# For testing heroku logging
-		puts "Trace: Clearing all caches at path = #{@mstrCacheFolder}"
+		# For testing heroku logging		
+		appendDebugOutput("Clearing all caches at path = #{@mstrCacheFolder}")			
 		logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
 		grabber_logger = FeedUsGrabberLogger.new(logfile)
 		grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
@@ -308,7 +317,7 @@ class FeedUsGrabber
 		canConnect = canConnectToFeedUs()
 
 		if canConnect == true
-			puts "Trace: clear cache folder can connect"
+			appendDebugOutput("Clear cache folder can connect")						
 			FileUtils.rm_r Dir.glob("#{folder}/*")
 		else
 			logError("Unable to connect to Feed.Us. Cache will not be cleared. URL that was checked: #{@mstrDynURL}")
@@ -343,4 +352,14 @@ class FeedUsGrabber
 		logfile.close
 	end
 
+	def addToDebugOutput(debugOutput, info)	    
+	    debugOutput << info + "<br />"
+	    puts " Debug Trace -> " + info
+	end
+
+	private
+
+		def appendDebugOutput(info)		
+			self.addToDebugOutput(@mstrDebugOutput, info)
+		end
 end

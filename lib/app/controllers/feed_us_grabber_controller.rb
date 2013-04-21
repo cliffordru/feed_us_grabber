@@ -10,71 +10,73 @@ class FeedUsGrabberController < ActionController::Base
 			# ! IMPORTANT: TO DISABLE THIS CHECK SET BOTH ARRAYS TO nil 
 			@mClientWhiteList = [ "75.126.108.226", "75.126.107.10", "127.0.0.1", "50.56.95.92" ]		
 			@mClientHostNameWhileList = [ "app.feed.us", "request.feed.us", "feed.us", "classic.syndication.feed.us", "render.feed.us", "dev.feed.us", "stage.feed.us", "localhost"]  
-			@mClientIp
+			@mClientIp = ""			
 		end
 
-		args = {}
-
+		@mArgs = {}
+		
 		# URL that will be checked for connectivity before clearing the cache (phone home)
-		args[:FeedUsURL] = 'http://render.feed.us/grabberdefault.htm?phonehome=true'	 			
+		@mArgs[:FeedUsURL] = 'http://render.feed.us/grabberdefault.htm?phonehome=true'	 			
+		@mArgs[:DebugOutput] = ""
+		@mArgs[:Debug] = false
+		@mDebugLogger = FeedUsGrabber.new
 
 		unless params[:cachecommand].nil?
-			args[:CacheCommand] = params[:cachecommand]
+			@mArgs[:CacheCommand] = params[:cachecommand]
 		end
 		unless params[:group].nil?
-			args[:FeedUsCacheGroup] = params[:group]
-		end
-		args[:DebugOutput] = ""
-		args[:Debug] = false
-		unless params[:debug].nil?
-			args[:Debug] = params[:debug] == "1"
-		end	  
-
-		if args[:FeedUsCacheGroup]  && args[:CacheCommand].nil?
-			args[:CacheCommand] = 'clear'
-		end
-    
-		if args[:CacheCommand].nil?
-		  args[:CacheCommand] = 'clearall'
+			@mArgs[:FeedUsCacheGroup] = params[:group]
 		end
 		
-		if args[:CacheCommand] == 'clear' && args[:FeedUsCacheGroup]
+		unless params[:debug].nil?
+			@mArgs[:Debug] = params[:debug] == "1"
+		end	  
+
+		if @mArgs[:FeedUsCacheGroup]  && @mArgs[:CacheCommand].nil?
+			@mArgs[:CacheCommand] = 'clear'
+		end
+    
+		if @mArgs[:CacheCommand].nil?
+		  @mArgs[:CacheCommand] = 'clearall'
+		end
+		
+		if @mArgs[:CacheCommand] == 'clear' && @mArgs[:FeedUsCacheGroup]
 		  fetch = true
 		else
 		  fetch = false
 		end
-		if args[:CacheCommand] == 'clearall' || args[:CacheCommand] == CACHE_COMMAND_FORCE
+		if @mArgs[:CacheCommand] == 'clearall' || @mArgs[:CacheCommand] == CACHE_COMMAND_FORCE
 		  fetch = true
 		end
 		
 		# Client ip check
-		isPermittedToProceed = IsPermittedToProceed(args)
+		isPermitted = IsPermittedToProceed()
 		
 		renderText = ""
-		if isPermittedToProceed == false
-			renderText = "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
-					<p style=\"font-family:arial;\"> IP " + @mClientIp + " is not authorized.  Modify the feed_us_grabber_controller @mClientWhiteList array if this IP should have access. "				
-		else	
+		if @mArgs[:Debug] == true && isPermitted
+			renderText << @mArgs[:DebugOutput]					
+		end
+
+		if isPermitted
 			if fetch == true 
-				feedUsGrabber(args)
-				renderText = "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
+				grabber = feedUsGrabber(@mArgs)
+				renderText << grabber.getDebugOutput
+				renderText << "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
 				<p style=\"font-family:arial;\">Congratulations!  You have successfully refreshed your content.</p>
 				<p style=\"font-family:arial;\"><a href=\"/\">Home</a></p> "
 			else
-				renderText = "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
+				renderText << "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
 				<p style=\"font-family:arial;\"> Please specify cachecommand=clear&group=GROUPNAME or cachecommand=clearall or cachecommand=force_clear_all in the URL</p> "
-			end
+			end					
+		else	
+			renderText << "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
+					<p style=\"font-family:arial;\"> IP " + @mClientIp + " is not authorized.  Modify the feed_us_grabber_controller @mClientWhiteList array if this IP should have access. "				
 		end
-		
-		if args[:Debug] == true
-			renderText << args[:DebugOutput]
-			renderText << @mClientWhiteList.to_s	
-		end
-		
+					
 		render :text=> renderText
 	end
 	
-	def IsPermittedToProceed(args)			
+	def IsPermittedToProceed			
 		isPermitted = false
 		@mClientIp = request.remote_addr	
 		
@@ -82,7 +84,7 @@ class FeedUsGrabberController < ActionController::Base
 			@mClientIp = request.env["HTTP_X_FORWARDED_FOR"]
 		end
 				
-		isPermitted = IsClientIpInWhiteList(args)
+		isPermitted = IsClientIpInWhiteList()
 		
 		if isPermitted == false
 			if @mClientHostNameWhileList.nil? == false
@@ -90,7 +92,7 @@ class FeedUsGrabberController < ActionController::Base
 				begin
 					s = Socket.getaddrinfo(@mClientIp,nil)
 					host = s[0][2]
-					puts "Trace: host = #{host}"						
+					AddToDebugOutput("Host is #{host}")										
 					if @mClientHostNameWhileList.include?(host) == true
 						isPermitted = true
 					end
@@ -106,25 +108,17 @@ class FeedUsGrabberController < ActionController::Base
 			if @mClientIp == "" || @mClientIp.nil?
 				@mClientIp = request.env["X-Forwarded-For"]
 			end			
-			isPermitted = IsClientIpInWhiteList(args)
-			puts "Trace: Try to use fwd header = #{@mClientIp}"	
-			puts "Trace: using fwd header isPermitted = #{isPermitted}"	
+			isPermitted = IsClientIpInWhiteList()
+			AddToDebugOutput("Trying to use X-Forwarded-For #{@mClientIp}")			
 		end
-		
-		# Set the Debug flag - do not want to output Debug info if not permitted
-		if isPermitted == false
-			args[:Debug] = false
-		end
-		
-		puts "Trace: mClientIp = #{@mClientIp}"		
-		puts "Trace: returning is permitted true"
-		args[:DebugOutput] << "Debug: mClientIp = #{@mClientIp}"
+				
+		AddToDebugOutput("Results of is permitted check = #{isPermitted.to_s} for IP #{@mClientIp}")
 
-		return isPermitted
+		isPermitted
 	end
 	
-	def IsClientIpInWhiteList(args)
-		included = false		
+	def IsClientIpInWhiteList
+		included = false			
 		if @mClientWhiteList.nil? && @mClientHostNameWhileList.nil?
 			included = true
 		else	
@@ -134,10 +128,16 @@ class FeedUsGrabberController < ActionController::Base
 				@mClientWhiteList.push(configuredClientWhiteList)
 			end
 
+			AddToDebugOutput("Checking if IP #{@mClientIp} is in ClientWhiteList #{@mClientWhiteList.to_s}")	
+
 			if @mClientWhiteList.nil? == false && @mClientWhiteList.include?(@mClientIp) == true
 				included = true
 			end
 		end
 		return included
+	end
+
+	def AddToDebugOutput(info)
+		@mDebugLogger.addToDebugOutput(@mArgs[:DebugOutput], info)		
 	end
 end

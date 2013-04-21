@@ -37,5 +37,5 @@ module FeedUsGrabberHelper
 
   def feedUsGrabberRender(grabber)
     grabber.renderCacheFromFile.to_s.html_safe
-  end
+  end  
 end
