@@ -175,6 +175,7 @@ class FeedUsGrabber
 	end
 	
 	def saveState
+		appendDebugOutput("Does state file exist " + self.stateFileExists.to_s)
 		if (!self.stateFileExists)
 			self.createStateFile
 		end
@@ -195,9 +196,11 @@ class FeedUsGrabber
 				@mstrClientWhiteList = line
 			end	
 		end
+		appendDebugOutput("Read from state file #{@mstrStateFile} value #{@mstrClientWhiteList}")
 	end
 
 	def writeStateFile
+		appendDebugOutput("Writing to state file #{@mstrStateFile} value #{@mstrClientWhiteList}")
 		File.open(@mstrStateFile,'w') do |file|
 			file.write(@mstrClientWhiteList)
 		end

@@ -53,7 +53,7 @@ class FeedUsGrabberController < ActionController::Base
 		isPermitted = IsPermittedToProceed()
 		
 		renderText = ""
-		if @mArgs[:Debug] == true #&& isPermitted
+		if @mArgs[:Debug] == true && isPermitted
 			renderText << @mArgs[:DebugOutput]					
 		end
 
@@ -72,7 +72,7 @@ class FeedUsGrabberController < ActionController::Base
 			end					
 		else	
 			renderText << "<img src=\"http://feed.us/images/feedus_logo_people.png\"><br />
-					<p style=\"font-family:arial;\"> IP " + @mClientIp + " is not authorized.  Modify the feed_us_grabber_controller @mClientWhiteList array if this IP should have access. "				
+					<p style=\"font-family:arial;\"> IP " + @mClientIp + " is not authorized.  Modify your controller to include :ClientWhiteList => '" + @mClientIp + "' and make a request to your contoller before trying to clear the cache again"				
 		end
 					
 		render :text=> renderText
