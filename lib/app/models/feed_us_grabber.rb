@@ -140,11 +140,13 @@ class FeedUsGrabber
 		if @mstrCacheCommand.nil? || @mstrCacheCommand == ''
 			if (!self.cachedFileExists) or self.cacheFileIsExpired
 				self.createCacheFile
-			end
+			end		
 		else
 			if @mstrCacheCommand == "clear"
 				if @mstrCacheGroup != ''
 					self.clearCacheGroupFiles(@mstrCacheGroup)
+				elsif @mstrCacheFolder
+					self.clearCacheFolder(@mstrCacheFolder)
 				end
 			end
 			if @mstrCacheCommand == 'clearall' || @mstrCacheCommand == CACHE_COMMAND_FORCE
@@ -234,7 +236,7 @@ class FeedUsGrabber
 	end
 
 	def makeDirectory(dir, mode = 0755)
-		if File.directory?(dir) || FileUtils.mkdir(dir)
+		if File.directory?(dir) || FileUtils.mkdir_p(dir)
 			return true
 		end
 		return false
@@ -286,7 +288,7 @@ class FeedUsGrabber
 			logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
 			grabber_logger = FeedUsGrabberLogger.new(logfile)
 			grabber_logger.error("Unable to render/open #{@mstrCachedFileName}")
-			logfile.close
+			logfile.close			
 		end
 	end
 
@@ -299,19 +301,21 @@ class FeedUsGrabber
 			logfile.close
 			return
 		end
+		logMessage = "Clearing cache at group  #{group} at path #{File.join(@mstrCacheFolder,group)}"
+	 	appendDebugOutput(logMessage)
 		logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
 		grabber_logger = FeedUsGrabberLogger.new(logfile)
-		grabber_logger.info("Clearing cache at group  #{group} at path #{File.join(@mstrCacheFolder,group)}")
+		grabber_logger.info(logMessage)
 		logfile.close
 		self.clearCacheFolder(File.join(@mstrCacheFolder,group))
 	end
 
 	def clearAllCachedFiles
-		# For testing heroku logging		
-		appendDebugOutput("Clearing all caches at path = #{@mstrCacheFolder}")			
+		logMessage = "Clearing all caches at path = #{@mstrCacheFolder}" 		
+		appendDebugOutput(logMessage)			
 		logfile = File.open(File.join(Rails.root.to_s,'log','FeedUsGrabber.log'),'a');
 		grabber_logger = FeedUsGrabberLogger.new(logfile)
-		grabber_logger.info("Clearing all caches at path #{@mstrCacheFolder}")
+		grabber_logger.info(logMessage)
 		logfile.close
 		self.clearCacheFolder(@mstrCacheFolder);
 	end
@@ -320,7 +324,7 @@ class FeedUsGrabber
 		canConnect = canConnectToFeedUs()
 
 		if canConnect == true
-			appendDebugOutput("Clear cache folder can connect")						
+			appendDebugOutput("Clear cache folder can connect, removing cache from #{folder}")						
 			FileUtils.rm_r Dir.glob("#{folder}/*")
 		else
 			logError("Unable to connect to Feed.Us. Cache will not be cleared. URL that was checked: #{@mstrDynURL}")
@@ -353,6 +357,7 @@ class FeedUsGrabber
 
 		grabber_logger.error(contents)
 		logfile.close
+		appendDebugOutput(contents)
 	end
 
 	def addToDebugOutput(debugOutput, info)	    

@@ -27,6 +27,10 @@ class FeedUsGrabberController < ActionController::Base
 		unless params[:group].nil?
 			@mArgs[:FeedUsCacheGroup] = params[:group]
 		end
+
+		unless params[:folder].nil?
+			@mArgs[:FeedUsCacheFolder] = params[:folder]
+		end
 		
 		unless params[:debug].nil?
 			@mArgs[:Debug] = params[:debug] == "1"
@@ -41,6 +45,8 @@ class FeedUsGrabberController < ActionController::Base
 		end
 		
 		if @mArgs[:CacheCommand] == 'clear' && @mArgs[:FeedUsCacheGroup]
+		  fetch = true
+		elsif @mArgs[:CacheCommand] == 'clear' && @mArgs[:FeedUsCacheFolder]
 		  fetch = true
 		else
 		  fetch = false
@@ -125,11 +131,12 @@ class FeedUsGrabberController < ActionController::Base
 			included = true
 		else	
 			# User can specify additional IP's to add to whitelist				
-			configuredClientWhiteList = FeedUsGrabber.new.getClientWhiteList
+			grabber = FeedUsGrabber.new
+			configuredClientWhiteList = grabber.getClientWhiteList
 			unless configuredClientWhiteList.nil? || configuredClientWhiteList.empty?			
 				@mClientWhiteList.push(configuredClientWhiteList)
 			end
-
+			AddToDebugOutput(grabber.getDebugOutput)
 			AddToDebugOutput("Checking if IP #{@mClientIp} is in ClientWhiteList #{@mClientWhiteList.to_s}")	
 
 			if @mClientWhiteList.nil? == false && @mClientWhiteList.include?(@mClientIp) == true
