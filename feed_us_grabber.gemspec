@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "feed_us_grabber"
-  s.version = "1.0.3"
+  s.version = "1.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Cliff G"]
-  s.date = "2013-04-28"
+  s.date = "2013-05-05"
   s.description = "This gem replaces the previous feed.us grabber rails plugin to render content items from feed.us on your site."
   s.email = "clifford.gray@gmail.com"
   s.extra_rdoc_files = [
