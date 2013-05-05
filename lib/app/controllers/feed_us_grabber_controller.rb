@@ -132,9 +132,9 @@ class FeedUsGrabberController < ActionController::Base
 		else	
 			# User can specify additional IP's to add to whitelist				
 			grabber = FeedUsGrabber.new
-			configuredClientWhiteList = grabber.getClientWhiteList
+			configuredClientWhiteList = grabber.getClientWhiteList.split(",")
 			unless configuredClientWhiteList.nil? || configuredClientWhiteList.empty?			
-				@mClientWhiteList.push(configuredClientWhiteList)
+				@mClientWhiteList.concat(configuredClientWhiteList)
 			end
 			AddToDebugOutput(grabber.getDebugOutput)
 			AddToDebugOutput("Checking if IP #{@mClientIp} is in ClientWhiteList #{@mClientWhiteList.to_s}")	

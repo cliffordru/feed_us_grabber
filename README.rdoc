@@ -8,18 +8,18 @@ To be used with Rails 3.x and Ruby 1.9x.  We're proud of our software, and we wa
 
 Follow these steps to download and install the feed_us_grabber gem:
 	
-(1) In your rails application, edit your Gemfile to include:
+1. In your rails application, edit your Gemfile to include:
 	gem 'feed_us_grabber'
 	
-(2) Run bundle install from the command line (this will download the feed_us_grabber to your environment)
+2. Run bundle install from the command line (this will download the feed_us_grabber to your environment)
 	
-(3) Open config/routes.rb and add following line: 
+3. Open config/routes.rb and add following line: 
 	match "rails_app/FeedUsGrabber" => "FeedUsGrabber#index"        
 	** where rails_app is the root URL to your application.  The match is case sensitive.
 	
-(4) Update environment.rb and include require 'net/http'
+4. Update environment.rb and include require 'net/http'
 	
-(5) Your installation is complete
+5. Your installation is complete
 
 == USAGE
 (1) Add following line to each controller (or app/controllers/application_controller.rb):
@@ -73,6 +73,8 @@ To clear cache goto following url
 def index
 	@grabber = feedUsGrabber(:FeedUsURL => 'http://render.feed.us/Feed.aspx?g=00767d50-bde8-e111-9875-4040419a7f04', :ClientWhiteList => 'xxx.xx.xx.xx') 
 end
+
+<b>You can also specify multiple IP's seperated with a comma :ClientWhiteList => 'xxx.xx.xx.xx,yyy.yy.yy.yy'</b>
 
 == LOCATION OF CACHE
 		Cache is maintained under RAILS_ROOT/tmp
